@@ -6,6 +6,7 @@ import userRoutes from "./user.routes.js";
 import programmeRoutes from "./programme.routes.js";
 import resourceRoutes from "./resource.routes.js";
 import eventRoutes from "./event.routes.js";
+import eventRegistrationRoutes from "./eventRegistration.routes.js";
 
 const router = Router();
 
@@ -23,5 +24,8 @@ router.use("/resources", resourceRoutes)
 
 //Event endpoints
 router.use("/events", eventRoutes)
+
+//Event registration endpoints
+router.use("/event-registrations", eventRegistrationRoutes)
 
 export default router;
