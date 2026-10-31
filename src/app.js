@@ -4,8 +4,7 @@ import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import helmet from "helmet";
-
-import pool, { connectDatabase } from "./config/database.js";
+import {  sequelize,  User,  Programme,  Resource,  Event,} from "./models/index.js";
 import Routes from "./routes/index.js";
 import { errorHandler } from "./middleware/error.middleware.js";
 
@@ -69,11 +68,16 @@ app.use(errorHandler);
 
 const PORT = process.env.PORT || 3000;
 
-// Verify the database before starting the API.
+
 async function startServer() {
   try {
-    await connectDatabase();
+    // Check that PostgreSQL is reachable.
+    await sequelize.authenticate();
     console.log("PostgreSQL connected successfully.");
+
+    // Create missing tables from the registered models.
+    await sequelize.sync();
+    console.log("Database models synchronised successfully.");
 
     app.listen(PORT, "0.0.0.0", () => {
       console.log(`Daughters of Gaia API running on port ${PORT}`);
